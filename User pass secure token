@@ -1,0 +1,30 @@
+#!/bin/bash
+
+pcadminpass=$4
+oldpcadminpass=$5
+
+## Get the logged in user's name
+userName=`stat -f%Su /dev/console`
+
+
+## Get the logged in user's password via a prompt
+echo "Prompting ${userName} for their login password."
+echo "$userName"
+
+USERPASS=$(osascript -e '
+tell application "Finder"
+   display dialog "Enter your password please to enable FileVault" default answer "" with hidden answer
+    set USERPASS to the (text returned of the result)
+end tell')
+
+tokenpass1=`sysadminctl -adminUser $userName -adminPassword $USERPASS -secureTokenOn pcadmin -password $pcadminpass`
+tokenpass2=`sysadminctl -adminUser $userName -adminPassword $USERPASS -secureTokenOn pcadmin -password $oldpcadminpass`
+
+## Takes the user's credentials and uses them to give pcadmina a secure token 
+## In and IF statement in case the mac has the old pcadmin password
+if [ "${tokenpass1}" ]; then
+	exit 0
+else
+	[ "${tokenpass2}" ]
+    exit 0
+fi
