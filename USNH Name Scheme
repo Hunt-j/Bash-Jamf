@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Get the Serial Number of the Machine
+sn=$(system_profiler SPHardwareDataType | awk '/Serial/ {print $4}') 
+
+snp=$( echo $sn | awk '{print "P-"$0}' )
+
+# Set the ComputerName, HostName and LocalHostName
+/usr/local/bin/jamf setComputerName -name $snp

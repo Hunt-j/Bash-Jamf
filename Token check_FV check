@@ -1,0 +1,19 @@
+#!/bin/bash
+
+
+st=$( sysadminctl -secureTokenStatus pcadmin 2>&1 | awk '{print $7}' )
+fde=$( fdesetup status | awk '{print $3}' )
+echo $st
+echo $fde
+
+if [ "$st" = "ENABLED" ]; then
+    echo "pcadmin is Secure Token Enabled"
+elif [ "$st" = "DISABLED" ]; then
+    echo "pcadmin is not Secure Token Enabled"
+    if [ "$fde" = "Off." ]; then
+        echo "Filevault is Off, no issue"
+    elif [ "$fde" = "On." ]; then
+        echo "Filevault is on, will be an issue"
+        exit 1
+    fi
+fi

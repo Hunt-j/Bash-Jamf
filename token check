@@ -1,0 +1,10 @@
+!#/bin/bash
+
+Tokenstatus='sysadminctl -secureTokenStatus pcadmin'
+pcadmincheck=$(echo "${Tokenstatus}" | Grep "ENABLED")
+expectedstatus="ENABLED"
+if [ "${pcadmincheck}" != "${expectedstatus}" ]; then
+    echo "pcadmin is not Secure Token Enabled"
+    echo "${pcadmincheck}"
+    exit 2
+fi

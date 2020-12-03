@@ -1,0 +1,7 @@
+#!/bin/bash
+
+userName=$(whoami)
+echo "$userName"
+
+grep -E '==|Name|Category|Package|Triggered|Execution Frequency|Service' /Users/$userName/Downloads/jamf-pro-summary.txt | sed '/Reset Computer Name/d' | sed '/Self Heal Packages/d' | sed '/false/d' | sed '/Java Runtime Name/d' | sed '/Java VM Name/d' | sed '/Database/d' | sed 's/\.[^:]*:/:/g' > /Users/$userName/Desktop/PSU-Jamf-Polices.txt
+

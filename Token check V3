@@ -1,0 +1,12 @@
+#!/bin/bash
+
+st=$( sysadminctl -secureTokenStatus pcadmin 2>&1 | awk '{print $7}' )
+
+echo $st
+
+if [ "$st" = "ENABLED" ]; then
+    echo "pcadmin is Secure Token Enabled"
+elif [ "$st" = "DISABLED" ]; then
+    echo "pcadmin is not Secure Token Enabled"
+    exit 1
+fi
