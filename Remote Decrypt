@@ -1,0 +1,16 @@
+#!/bin/bash
+
+password="$5"
+
+echo '<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+        <dict>
+                <key>Username</key>
+                <string>pcadmin</string>
+                <key>Password</key>
+                <string>$password</string>
+        </dict>
+</plist>' > /tmp/filevault.plist
+sudo fdesetup disable -inputplist < /tmp/filevault.plist
+rm /tmp/filevault.plist
