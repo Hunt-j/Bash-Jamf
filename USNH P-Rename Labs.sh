@@ -1,14 +1,19 @@
 #!/bin/bash
 
+#Grabs the hostname
 name=$(hostname)
 
 
-# Adds "P-" to the beginning of the name
+#Appends "P-" to the hostname
 pname=$( echo $name | awk '{print "P-"$0}' )
+
+#Just some variables in case this runs on the same machines more than once
 P="P-"
 P2="P-P-"
 P3="P-P-P-"
 
+
+#If loops to determine if the machine needs "P-" on the name, if it needs excess "P-"s removed, or if it's already properly named.
 if [[ "$name" == *"$P"* ]]; then
 
     if [[ "$name" == *"$P2"* ]]; then
@@ -27,10 +32,10 @@ if [[ "$name" == *"$P"* ]]; then
         exit
     
     else
-        echo "Name Correctly Already"
+        echo "Named Correctly Already"
     fi
 
 else
-# Set the ComputerName, HostName and LocalHostName
+
     sudo /usr/local/bin/jamf setComputerName -name $pname
 fi
